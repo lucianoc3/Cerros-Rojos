@@ -1,49 +1,32 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Gastos Compartidos</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="manifest" href="manifest.json">
-</head>
-<body>
-    <h1>Registro de Gastos Compartidos</h1>
-    
-    <form id="gastoForm">
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" required>
-        
-        <label for="monto">Monto:</label>
-        <input type="number" id="monto" required>
-        
-        <label for="quienGasto">¿Quién gastó?</label>
-        <select id="quienGasto" required>
-            <option value="Caro">Caro</option>
-            <option value="Lucas">Lucas</option>
-            <option value="Luciano">Luciano</option>
-        </select>
-        
-        <button type="submit">Registrar Gasto</button>
-    </form>
+document.getElementById('transaccionForm').addEventListener('submit', function(event) {
+    event.preventDefault();
 
-    <h2>Historial de Transacciones</h2>
-    <table id="tablaHistorial">
-        <!-- El historial se llenará dinámicamente con JavaScript -->
-    </table>
+    const tipo = document.getElementById('tipo').value;
+    const quien = document.getElementById('quien').value;
+    const descripcion = document.getElementById('descripcion').value;
+    const monto = document.getElementById('monto').value;
+    const destinatario = document.getElementById('destinatario').value || '';
 
-    <script src="script.js"></script>
-    <script>
-        // Registrar el Service Worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
-              .then(function(registration) {
-                console.log('Service Worker registrado con éxito:', registration.scope);
-              })
-              .catch(function(error) {
-                console.log('Registro de Service Worker fallido:', error);
-              });
-        }
-    </script>
-</body>
-</html>
+    // Validar campos
+    if (!tipo || !quien || !descripcion || !monto || (tipo == 'Pago' && !destinatario)) {
+        alert('Por favor, complete todos los campos requeridos.');
+        return;
+    }
+
+    // Construir la URL con los parámetros
+    const url = `${baseUrl}?action=registrarTransaccion&tipo=${encodeURIComponent(tipo)}&descripcion=${encodeURIComponent(descripcion)}&monto=${encodeURIComponent(monto)}&quien=${encodeURIComponent(quien)}&destinatario=${encodeURIComponent(destinatario)}`;
+
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+            cargarHistorial();
+            // Limpiar formulario
+            document.getElementById('transaccionForm').reset();
+            document.getElementById('destinatarioDiv').style.display = 'none';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Ocurrió un error al registrar la transacción.');
+        });
+});
