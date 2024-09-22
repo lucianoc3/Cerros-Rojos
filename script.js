@@ -1,5 +1,5 @@
 // URL del Web App de Google Apps Script
-const baseUrl = 'https://script.google.com/macros/s/AKfycbyk1gLUyaLzo-CC47jQ8WnezfOtj5dw8Tqr2rHUtpITyZYVvAKqZmbDbvx5LJLXNUe-/exec';
+const baseUrl = 'https://script.google.com/macros/s/AKfycbw3ixIsPdsomFQn5OLAVKXnXduFc7S1ZXrr8oQyHXm1hEEfteZEd9ndosS6d4n5SYND/exec';
 
 document.getElementById('transaccionForm').addEventListener('submit', function(event) {
     event.preventDefault();
