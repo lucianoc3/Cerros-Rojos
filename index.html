@@ -1,96 +1,188 @@
-<form id="transaccionForm">
-    <label for="tipo">Tipo de Transacción:</label>
-    <select id="tipo" required>
-        <option value="">Seleccione</option>
-        <option value="Gasto">Gasto</option>
-        <option value="Pago">Pago</option>
-    </select>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Gastos Compartidos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <h1>Registro de Gastos Compartidos</h1>
 
-    <label for="quien">¿Quién realizó la transacción?</label>
-    <select id="quien" required>
-        <option value="">Seleccione</option>
-        <option value="Caro">Caro</option>
-        <option value="Lucas">Lucas</option>
-        <option value="Luciano">Luciano</option>
-    </select>
+    <form id="transaccionForm">
+        <label for="tipo">Tipo de Transacción:</label>
+        <select id="tipo" required>
+            <option value="">Seleccione</option>
+            <option value="Gasto">Gasto</option>
+            <option value="Pago">Pago</option>
+        </select>
 
-    <div id="destinatarioDiv" style="display:none;">
-        <label for="destinatario">¿A quién se le realizó el pago?</label>
-        <select id="destinatario">
+        <label for="quien">¿Quién realizó la transacción?</label>
+        <select id="quien" required>
             <option value="">Seleccione</option>
             <option value="Caro">Caro</option>
             <option value="Lucas">Lucas</option>
             <option value="Luciano">Luciano</option>
         </select>
-    </div>
 
-    <label for="descripcion">Descripción:</label>
-    <input type="text" id="descripcion" required>
+        <div id="destinatarioDiv" style="display:none;">
+            <label for="destinatario">¿A quién se le realizó el pago?</label>
+            <select id="destinatario">
+                <option value="">Seleccione</option>
+                <option value="Caro">Caro</option>
+                <option value="Lucas">Lucas</option>
+                <option value="Luciano">Luciano</option>
+            </select>
+        </div>
 
-    <label for="monto">Monto:</label>
-    <input type="number" id="monto" step="0.01" required>
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" required>
 
-    <button type="submit">Registrar Transacción</button>
-</form>
+        <label for="monto">Monto:</label>
+        <input type="number" id="monto" step="0.01" required>
 
-<script>
-    document.getElementById('tipo').addEventListener('change', function() {
-        var tipo = this.value;
-        var destinatarioDiv = document.getElementById('destinatarioDiv');
-        if (tipo == 'Pago') {
-            destinatarioDiv.style.display = 'block';
-            document.getElementById('destinatario').required = true;
-        } else {
-            destinatarioDiv.style.display = 'none';
-            document.getElementById('destinatario').required = false;
+        <button type="submit">Registrar Transacción</button>
+    </form>
+
+    <h2>Historial de Transacciones</h2>
+    <table id="tablaHistorial">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Quién</th>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Tipo</th>
+                <th>Saldo Caro</th>
+                <th>Saldo Lucas</th>
+                <th>Saldo Luciano</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- El historial se llenará dinámicamente con JavaScript -->
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+    <script>
+        // Registrar el Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js')
+              .then(function(registration) {
+                console.log('Service Worker registrado con éxito:', registration.scope);
+              })
+              .catch(function(error) {
+                console.log('Registro de Service Worker fallido:', error);
+              });
         }
-    });
-</script>
-<form id="transaccionForm">
-    <label for="tipo">Tipo de Transacción:</label>
-    <select id="tipo" required>
-        <option value="">Seleccione</option>
-        <option value="Gasto">Gasto</option>
-        <option value="Pago">Pago</option>
-    </select>
+    </script>
+    <script>
+        // Mostrar u ocultar el campo de destinatario según el tipo de transacción
+        document.getElementById('tipo').addEventListener('change', function() {
+            var tipo = this.value;
+            var destinatarioDiv = document.getElementById('destinatarioDiv');
+            if (tipo == 'Pago') {
+                destinatarioDiv.style.display = 'block';
+                document.getElementById('destinatario').required = true;
+            } else {
+                destinatarioDiv.style.display = 'none';
+                document.getElementById('destinatario').required = false;
+            }
+        });
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro de Gastos Compartidos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <h1>Registro de Gastos Compartidos</h1>
 
-    <label for="quien">¿Quién realizó la transacción?</label>
-    <select id="quien" required>
-        <option value="">Seleccione</option>
-        <option value="Caro">Caro</option>
-        <option value="Lucas">Lucas</option>
-        <option value="Luciano">Luciano</option>
-    </select>
+    <form id="transaccionForm">
+        <label for="tipo">Tipo de Transacción:</label>
+        <select id="tipo" required>
+            <option value="">Seleccione</option>
+            <option value="Gasto">Gasto</option>
+            <option value="Pago">Pago</option>
+        </select>
 
-    <div id="destinatarioDiv" style="display:none;">
-        <label for="destinatario">¿A quién se le realizó el pago?</label>
-        <select id="destinatario">
+        <label for="quien">¿Quién realizó la transacción?</label>
+        <select id="quien" required>
             <option value="">Seleccione</option>
             <option value="Caro">Caro</option>
             <option value="Lucas">Lucas</option>
             <option value="Luciano">Luciano</option>
         </select>
-    </div>
 
-    <label for="descripcion">Descripción:</label>
-    <input type="text" id="descripcion" required>
+        <div id="destinatarioDiv" style="display:none;">
+            <label for="destinatario">¿A quién se le realizó el pago?</label>
+            <select id="destinatario">
+                <option value="">Seleccione</option>
+                <option value="Caro">Caro</option>
+                <option value="Lucas">Lucas</option>
+                <option value="Luciano">Luciano</option>
+            </select>
+        </div>
 
-    <label for="monto">Monto:</label>
-    <input type="number" id="monto" step="0.01" required>
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" required>
 
-    <button type="submit">Registrar Transacción</button>
-</form>
+        <label for="monto">Monto:</label>
+        <input type="number" id="monto" step="0.01" required>
 
-<script>
-    document.getElementById('tipo').addEventListener('change', function() {
-        var tipo = this.value;
-        var destinatarioDiv = document.getElementById('destinatarioDiv');
-        if (tipo == 'Pago') {
-            destinatarioDiv.style.display = 'block';
-            document.getElementById('destinatario').required = true;
-        } else {
-            destinatarioDiv.style.display = 'none';
-            document.getElementById('destinatario').required = false;
+        <button type="submit">Registrar Transacción</button>
+    </form>
+
+    <h2>Historial de Transacciones</h2>
+    <table id="tablaHistorial">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Quién</th>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Tipo</th>
+                <th>Saldo Caro</th>
+                <th>Saldo Lucas</th>
+                <th>Saldo Luciano</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- El historial se llenará dinámicamente con JavaScript -->
+        </tbody>
+    </table>
+
+    <script src="script.js"></script>
+    <script>
+        // Registrar el Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js')
+              .then(function(registration) {
+                console.log('Service Worker registrado con éxito:', registration.scope);
+              })
+              .catch(function(error) {
+                console.log('Registro de Service Worker fallido:', error);
+              });
         }
-    });
-</script>
+    </script>
+    <script>
+        // Mostrar u ocultar el campo de destinatario según el tipo de transacción
+        document.getElementById('tipo').addEventListener('change', function() {
+            var tipo = this.value;
+            var destinatarioDiv = document.getElementById('destinatarioDiv');
+            if (tipo == 'Pago') {
+                destinatarioDiv.style.display = 'block';
+                document.getElementById('destinatario').required = true;
+            } else {
+                destinatarioDiv.style.display = 'none';
+                document.getElementById('destinatario').required = false;
+            }
+        });
+    </script>
+</body>
+</html>
