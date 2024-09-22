@@ -1,3 +1,6 @@
+// URL del Web App de Google Apps Script
+const baseUrl = 'https://script.google.com/macros/s/AKfycbyk1gLUyaLzo-CC47jQ8WnezfOtj5dw8Tqr2rHUtpITyZYVvAKqZmbDbvx5LJLXNUe-/exec';
+
 document.getElementById('transaccionForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -30,6 +33,42 @@ document.getElementById('transaccionForm').addEventListener('submit', function(e
             alert('Ocurrió un error al registrar la transacción.');
         });
 });
+
+function cargarHistorial() {
+    const url = `${baseUrl}?action=obtenerHistorial`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.querySelector('#tablaHistorial tbody');
+            tbody.innerHTML = '';
+
+            data.forEach(registro => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${new Date(registro['Fecha']).toLocaleString()}</td>
+                    <td>${registro['Quién']}</td>
+                    <td>${registro['Descripción']}</td>
+                    <td>${registro['Monto']}</td>
+                    <td>${registro['Tipo de Transacción']}</td>
+                    <td>${registro['Saldo Caro']}</td>
+                    <td>${registro['Saldo Lucas']}</td>
+                    <td>${registro['Saldo Luciano']}</td>
+                `;
+                tbody.appendChild(fila);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Ocurrió un error al obtener el historial.');
+        });
+}
+
+// Cargar historial al cargar la página
+window.onload = cargarHistorial;
+// URL del Web App de Google Apps Script
+const baseUrl = 'https://script.google.com/macros/s/AKfycbyk1gLUyaLzo-CC47jQ8WnezfOtj5dw8Tqr2rHUtpITyZYVvAKqZmbDbvx5LJLXNUe-/exec';
+
 document.getElementById('transaccionForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
@@ -62,3 +101,36 @@ document.getElementById('transaccionForm').addEventListener('submit', function(e
             alert('Ocurrió un error al registrar la transacción.');
         });
 });
+
+function cargarHistorial() {
+    const url = `${baseUrl}?action=obtenerHistorial`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.querySelector('#tablaHistorial tbody');
+            tbody.innerHTML = '';
+
+            data.forEach(registro => {
+                const fila = document.createElement('tr');
+                fila.innerHTML = `
+                    <td>${new Date(registro['Fecha']).toLocaleString()}</td>
+                    <td>${registro['Quién']}</td>
+                    <td>${registro['Descripción']}</td>
+                    <td>${registro['Monto']}</td>
+                    <td>${registro['Tipo de Transacción']}</td>
+                    <td>${registro['Saldo Caro']}</td>
+                    <td>${registro['Saldo Lucas']}</td>
+                    <td>${registro['Saldo Luciano']}</td>
+                `;
+                tbody.appendChild(fila);
+            });
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Ocurrió un error al obtener el historial.');
+        });
+}
+
+// Cargar historial al cargar la página
+window.onload = cargarHistorial;
